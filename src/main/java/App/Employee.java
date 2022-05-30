@@ -47,6 +47,6 @@ public class Employee {
 	@Column	
 	private Integer vacatenDays;
 	@JsonManagedReference
-	@OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Date> date;
 }
