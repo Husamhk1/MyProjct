@@ -9,5 +9,6 @@ public interface DateRepo extends JpaRepository<Date, Long> {
 	
 
 	List<Date> findByDatum(LocalDate date);
+	
 
 }

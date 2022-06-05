@@ -48,7 +48,7 @@ public class Date {
 	@Column
 	private Long workTime;
 	@Column
-	private Long restVacatenDays;
+	private boolean vication;
 	@JsonBackReference
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "employee_id")

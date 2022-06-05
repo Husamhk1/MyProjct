@@ -34,12 +34,12 @@ public class DateController {
 	//OUTPUT-DATA
 //	@Value("${spring.application.name}")
 //	String appName ;
-
-	@GetMapping("/")
-	public String homePage(Model model) {
-		model.addAttribute("Name", "MyApp");
-		return "index";
-	}
+//
+//	@GetMapping("/")
+//	public String homePage(Model model) {
+//		model.addAttribute("Name", "MyApp");
+//		return "index";
+//	}
 
 	@GetMapping("/date/{date}")
 	public ResponseEntity<?> findByDate(@PathVariable LocalDate date) {
@@ -53,7 +53,12 @@ public class DateController {
 		date.setId(null);
 		return repo.save(date);
 	}
-
+	
+	@GetMapping("/worktime/{id}")
+	public ResponseEntity<?> findWorkeTime(@RequestBody Date date, @RequestParam Long id){
+		ResponseEntity<?>  workTime = (date.getEndTime().getHour()- date.getStartTime().getHour());
+		return workTime ;
+	}
 	@PutMapping("/{id}")
 	public ResponseEntity<?> editTheDate(@RequestBody Date date, @RequestParam Long id) {
 		if (!repo.existsById(id)) {
@@ -78,6 +83,19 @@ public class DateController {
 		 repo.deleteAll();
 	}
 
+//	public void calculateNewAverageRatingScore(Long activityId) {
+//
+//		List<Rating> listOfRatingsOfActivity = ratingRepository.findByActivityId(activityId);
+//		
+//		double averageScore = listOfRatingsOfActivity.stream()
+//				.mapToDouble(r -> r.getScore()).average().orElse(0.0);
+//		
+//		Optional<Activity> someActivity = activityRepository.findById(activityId);
+//
+//		if (someActivity.isPresent()) {
+//			someActivity.get().setAverageRatingScore((double) (Math.round(averageScore * 10) / 10.0));
+//			activityRepository.save(someActivity.get());
+//		}
 //
 //    @GetMapping("/title/{bookTitle}")
 //    public List findByTitle(@PathVariable String bookTitle) {
