@@ -83,6 +83,9 @@ public class DateController {
 		 repo.deleteAll();
 	}
 
+	public void calculateWorktime(Long dateID) {
+		
+	}
 //	public void calculateNewAverageRatingScore(Long activityId) {
 //
 //		List<Rating> listOfRatingsOfActivity = ratingRepository.findByActivityId(activityId);
