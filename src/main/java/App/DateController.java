@@ -1,6 +1,9 @@
 package App;
 
+import java.io.File;
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +29,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class DateController {
 	@Autowired
 	private DateRepo repo;
+	
 
 	@GetMapping("/alldate")
 	public List<Date> showAll() {
 		return repo.findAll();
 	}
-	//OUTPUT-DATA
+	// OUTPUT-DATA
 //	@Value("${spring.application.name}")
 //	String appName ;
 //
@@ -51,15 +55,12 @@ public class DateController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public Date insterDatum(@RequestBody Date date) {
 		date.setId(null);
+		Long timeWork = calculateWorktime(date);
 		return repo.save(date);
 	}
-	
-	@GetMapping("/worktime/{id}")
-	public ResponseEntity<?> findWorkeTime(@RequestBody Date date, @RequestParam Long id){
-		ResponseEntity<?>  workTime = (date.getEndTime().getHour()- date.getStartTime().getHour());
-		return workTime ;
-	}
+
 	@PutMapping("/{id}")
+
 	public ResponseEntity<?> editTheDate(@RequestBody Date date, @RequestParam Long id) {
 		if (!repo.existsById(id)) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -76,15 +77,21 @@ public class DateController {
 		repo.deleteById(id);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
+
 	@DeleteMapping("/deleteAll")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deletAll() {
-		
-		 repo.deleteAll();
+
+		repo.deleteAll();
 	}
 
-	public void calculateWorktime(Long dateID) {
-		
+	public Long calculateWorktime(Date date) {
+		Long time = Duration.between(date.getEndTime(), date.getStartTime()).toHours();
+
+		Long workTime = (long) (date.getEndTime().getHour() - date.getStartTime().getHour());
+
+		return time;
+
 	}
 //	public void calculateNewAverageRatingScore(Long activityId) {
 //
